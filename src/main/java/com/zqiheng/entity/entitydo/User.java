@@ -1,5 +1,6 @@
-package com.zqiheng.entity;
+package com.zqiheng.entity.entitydo;
 
+import com.zqiheng.entity.entitysuper.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

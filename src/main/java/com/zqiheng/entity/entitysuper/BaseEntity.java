@@ -1,4 +1,4 @@
-package com.zqiheng.entity;
+package com.zqiheng.entity.entitysuper;
 
 import lombok.Getter;
 import lombok.Setter;
