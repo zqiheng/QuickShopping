@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @Slf4j
 public class ServiceException extends RuntimeException  {
+
     private static final long serialVersionUID = -2356383135991113844L;
 
     private Integer code;

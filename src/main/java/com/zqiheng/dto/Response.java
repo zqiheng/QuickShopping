@@ -66,7 +66,7 @@ public class Response implements Serializable {
      * @date 2019/2/24 12:41:09
      */
     public static Response createSucc(final Object body) {
-        return new Response(QuckShopCode.SUCCESS_CODE, "Success", body);
+        return new Response(MyCode.SUCCESS_CODE, "Success", body);
     }
 
     /**
@@ -81,7 +81,7 @@ public class Response implements Serializable {
      * @date 2019/2/24 12:41:12
      */
     public static Response createError(final String message) {
-        return new Response(QuckShopCode.ERROR_CODE, message, null);
+        return new Response(MyCode.ERROR_CODE, message, null);
     }
 
     @Override

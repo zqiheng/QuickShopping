@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.util.StringUtils;
 
 /**
  * description:
@@ -22,7 +23,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class QuckShopCode {
+public class MyCode {
 
     public static final int SUCCESS_CODE = 0;
     public static final int WARNING_CODE = 1;
@@ -43,7 +44,7 @@ public class QuckShopCode {
      * @author ZQI
      * @date 2019/2/24 12:41:23
      */
-    public QuckShopCode(String temp) {
+    public MyCode(String temp) {
         if (null == temp) {
             return;
         }
@@ -70,9 +71,15 @@ public class QuckShopCode {
      * @author ZQI
      * @date 2019/2/24 12:41:27
      */
-    public QuckShopCode(int pCode, String pMessage) {
+    public MyCode(int pCode, String pMessage) {
         this.code = pCode;
         this.message = pMessage;
+    }
+
+    public MyCode(MyCode shopCode, String... mes) {
+        String tempMessage = shopCode.getMessage();
+        this.code = shopCode.getCode();
+        this.message = (mes.length >= count(tempMessage, "%s")) ? String.format(tempMessage, mes) : tempMessage;
     }
 
     @Override
@@ -83,7 +90,7 @@ public class QuckShopCode {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        QuckShopCode target = (QuckShopCode) o;
+        MyCode target = (MyCode) o;
         return code == target.code;
     }
 
@@ -98,7 +105,7 @@ public class QuckShopCode {
      * @author ZQI
      * @date 2019/2/24 12:41:35
      */
-    public boolean equals(QuckShopCode target) {
+    public boolean equals(MyCode target) {
         if (target == null) {
             return false;
         }
@@ -112,4 +119,16 @@ public class QuckShopCode {
         return result;
     }
 
+    private int count(String source, String subString) {
+        int count = 0;
+        if (StringUtils.isEmpty(source) || StringUtils.isEmpty(subString)) {
+            return count;
+        }
+        int index = source.indexOf(subString);
+        while (-1 != index) {
+            count = count + 1;
+            index = source.indexOf(subString, index + 1);
+        }
+        return count;
+    }
 }

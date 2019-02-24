@@ -1,7 +1,7 @@
 package com.zqiheng.common.utils;
 
 import com.zqiheng.common.exception.ServiceException;
-import com.zqiheng.dto.QuckShopCode;
+import com.zqiheng.dto.MyCode;
 
 /**
  * description:
@@ -23,15 +23,24 @@ public class Validations {
 
     public static void check(final boolean expression, final String message) {
         if (expression) {
-            throw new ServiceException(QuckShopCode.ERROR_CODE, message);
+            throw new ServiceException(MyCode.ERROR_CODE, message);
         }
     }
 
-    public static boolean isSuccess(final QuckShopCode code) {
-        return code != null && QuckShopCode.SUCCESS_CODE == code.getCode();
+    public static boolean isSuccess(final MyCode code) {
+        return code != null && MyCode.SUCCESS_CODE == code.getCode();
     }
 
-    public static boolean isNotSuccess(QuckShopCode code) {
+    public static void isOK(final MyCode code) {
+        if (code == null) {
+            throw new RuntimeException("MyCode is null");
+        }
+        if (!isSuccess(code)) {
+            throw new ServiceException(code.getCode(), code.getMessage());
+        }
+    }
+
+    public static boolean isNotSuccess(MyCode code) {
         return !isSuccess(code);
     }
 
