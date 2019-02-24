@@ -24,3 +24,10 @@ HELP.md
 /nbdist/
 /.nb-gradle/
 /build/
+
+### Log ###
+*.log
+bytetcc/
+log/
+*-dev.xml
+
