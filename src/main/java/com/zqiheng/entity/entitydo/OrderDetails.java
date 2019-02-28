@@ -3,10 +3,10 @@ package com.zqiheng.entity.entitydo;
 import com.zqiheng.entity.entitysuper.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * description:
@@ -29,7 +29,7 @@ public class OrderDetails extends BaseEntity {
 
     private static final long serialVersionUID = -7865532992130929326L;
 
-    @Column(name = "ORDER_DETAILS_ID",length = 64)
+    @Column(name = "ORDER_DETAILS_ID", length = 64)
     private String orderDetailsID;
 
     /**
@@ -44,9 +44,23 @@ public class OrderDetails extends BaseEntity {
     @Column(name = "PRODUCT_OBJ")
     private Integer productObj;
 
-    @Column(name = "PRODUCT_NUM",length = 4)
+    /**
+     * 商品购买数量
+     */
+    @Column(name = "PRODUCT_NUM", length = 4)
     private Integer productNum;
 
+    /**
+     * 商品购买价格
+     */
     @Column(name = "PRODUCT_PRICE")
     private Float productPrice;
+
+    /**
+     * 商品购买时间
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy:MM:dd HH:mm:ss")
+    @Column(name = "PRODUCT_BUY_TIME")
+    private Date productBuyTime;
 }

@@ -95,7 +95,19 @@ public class Product extends BaseEntity {
      * 商品图片
      */
     @Column(name = "PRODUCT_PICTURE")
-    private String productPicture;
+    private byte[] productPicture;
+
+    /**
+     * 商品库存
+     */
+    @Column(name = "STOCK_QUANTITY",length = 5)
+    private Integer stockQuantity;
+
+    /**
+     * 商品销量
+     */
+    @Column(name = "SELL_QUANTITY",length = 5)
+    private Integer sellQuantity;
 
     /**
      * 商品所属店铺，关联店铺主键
