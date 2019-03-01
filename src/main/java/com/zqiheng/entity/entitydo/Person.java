@@ -31,14 +31,14 @@ public class Person extends BaseEntity {
     /**
      * 工号
      */
-    @Column(name = "PERSON_ID",length = 64)
+    @Column(name = "PERSON_ID",length = 64,unique = true)
     private String personID;
 
     @Column(name = "PERSON_NAME",length = 64)
     private String personName;
 
-    @Column(name = "GENDER",length = 1)
-    private int gender;
+    @Column(name = "GENDER")
+    private Integer gender;
 
     /**
      * 出生日期
@@ -59,13 +59,13 @@ public class Person extends BaseEntity {
     /**
      * 状态，0：在职、1：离职、2：禁用
      */
-    @Column(name = "STATE",length = 1)
+    @Column(name = "STATE")
     private Integer state;
 
     /**
      * 权限，
      */
-    @Column(name = "PURVIEW",length = 1)
+    @Column(name = "PURVIEW")
     private Integer purview;
 
     /**

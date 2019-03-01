@@ -44,7 +44,7 @@ public class UserAddress extends BaseEntity {
      * 用户电话
      */
     @Column(name = "USER_PHONE",length = 11)
-    private Integer phone;
+    private String phone;
 
     /**
      * 省

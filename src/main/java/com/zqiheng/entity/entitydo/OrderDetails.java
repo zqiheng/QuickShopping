@@ -29,7 +29,7 @@ public class OrderDetails extends BaseEntity {
 
     private static final long serialVersionUID = -7865532992130929326L;
 
-    @Column(name = "ORDER_DETAILS_ID", length = 64)
+    @Column(name = "ORDER_DETAILS_ID", length = 64,unique = true)
     private String orderDetailsID;
 
     /**
@@ -47,7 +47,7 @@ public class OrderDetails extends BaseEntity {
     /**
      * 商品购买数量
      */
-    @Column(name = "PRODUCT_NUM", length = 4)
+    @Column(name = "PRODUCT_NUM")
     private Integer productNum;
 
     /**

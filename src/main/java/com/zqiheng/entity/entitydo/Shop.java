@@ -28,18 +28,52 @@ import javax.persistence.Table;
 public class Shop extends BaseEntity {
     private static final long serialVersionUID = -3698407887400843102L;
 
-    @Column(name = "SHOP_ID",length = 64)
+    /**
+     * 店铺ID，唯一
+     */
+    @Column(name = "SHOP_ID",length = 64,unique = true)
     private String shopID;
 
+    /**
+     * 店铺名称
+     */
     @Column(name = "SHOP_NAME",length = 64)
     private String shopName;
 
-    @Column(name = "SHOP_ADDRESS",length = 64)
-    private String shopAddress;
+    /**
+     * 省
+     */
+    @Column(name = "PROVINCE",length = 12)
+    private String province;
 
+    /**
+     * 市
+     */
+    @Column(name = "CITY",length = 12)
+    private String city;
+
+    /**
+     * 区/县
+     */
+    @Column(name = "COUNTY",length = 12)
+    private String county;
+
+    /**
+     * 详细地址
+     */
+    @Column(name = "DETAIL_ADDRESS",length = 64)
+    private String detailAddress;
+
+
+    /**
+     * 店铺类型
+     */
     @Column(name = "SHOP_TYPE",length = 64)
     private String shopType;
 
-    @Column(name = "SHOP_TEL",length = 11)
+    /**
+     * 店铺电话（座机）
+     */
+    @Column(name = "SHOP_TEL",length = 15)
     private String shopTel;
 }

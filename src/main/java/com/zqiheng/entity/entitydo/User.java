@@ -29,7 +29,7 @@ public class User extends BaseEntity {
 
     private static final long serialVersionUID = -6072620870531516478L;
 
-    @Column(name = "USER_ID", length = 64)
+    @Column(name = "USER_ID", length = 64,unique = true)
     private String userID;
 
     /**
@@ -47,7 +47,7 @@ public class User extends BaseEntity {
     /**
      * User Gender，0：none、1：male、2-female，From WeChat.
      */
-    @Column(name = "USER_GENDER", length = 1)
+    @Column(name = "USER_GENDER")
     private Integer userGender;
 
     /**

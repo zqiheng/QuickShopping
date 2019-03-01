@@ -28,7 +28,7 @@ import java.util.Date;
 public class Orders extends BaseEntity {
     private static final long serialVersionUID = 6494829253548465514L;
 
-    @Column(name = "ORDERS_ID",length = 64)
+    @Column(name = "ORDERS_ID",length = 64,unique = true)
     private String ordersID;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -39,7 +39,7 @@ public class Orders extends BaseEntity {
     /**
      * 待支付、已支付、已取消、已完成、待配送等
      */
-    @Column(name = "ORDERS_TYPE", length = 1)
+    @Column(name = "ORDERS_TYPE")
     private Integer ordersType;
 
     /**

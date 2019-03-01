@@ -31,8 +31,8 @@ public class Product extends BaseEntity {
     /**
      * 商品条码
      */
-    @Column(name = "PRODUCT_ID",length = 13)
-    private Integer productID;
+    @Column(name = "PRODUCT_ID",unique = true,length = 13)
+    private String productID;
 
     @Column(name = "PRODUCT_NAME",length = 64)
     private String productName;
@@ -100,13 +100,13 @@ public class Product extends BaseEntity {
     /**
      * 商品库存
      */
-    @Column(name = "STOCK_QUANTITY",length = 5)
+    @Column(name = "STOCK_QUANTITY")
     private Integer stockQuantity;
 
     /**
      * 商品销量
      */
-    @Column(name = "SELL_QUANTITY",length = 5)
+    @Column(name = "SELL_QUANTITY")
     private Integer sellQuantity;
 
     /**
