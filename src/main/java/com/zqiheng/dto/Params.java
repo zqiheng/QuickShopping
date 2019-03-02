@@ -25,4 +25,20 @@ public class Params {
         private Person person;
         private String userID;
     }
+
+    @Data
+    public static class UserInfo {
+        private String nickName;
+        private String gender;
+        private String language;
+        private String city;
+        private String province;
+        private String country;
+        private String avatarUrl;
+    }
+
+    @Data
+    public static class ProductID {
+        private String productID;
+    }
 }

@@ -63,4 +63,14 @@ public class UserController {
         log.info("【Step4】 post process.");
         return Response.createSucc(userRetCode.getObject());
     }
+
+    @PostMapping(value = "/user/add_user_info/add")
+    public Response addUserInfo(@RequestBody Params.UserInfo userInfo){
+        Validations.check(null == userInfo,"The input param info is error,"+ userInfo);
+        User saved = userService.addUserInfo(userInfo);
+        if(null == saved){
+            return Response.createError("Error saved...");
+        }
+        return Response.createSucc(saved);
+    }
 }

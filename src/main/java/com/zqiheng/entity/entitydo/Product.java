@@ -74,10 +74,16 @@ public class Product extends BaseEntity {
     private String productRemark;
 
     /**
-     * 产品类型
+     * 类型标记，A B C ...
      */
-    @Column(name = "PRODUCT_TYPE",length = 64)
+    @Column(name = "PRODUCT_TYPE",length = 2)
     private String productType;
+
+    /**
+     * 类型名称
+     */
+    @Column(name = "PRODUCT_TYPE_NAME",length = 64)
+    private String productTypeName;
 
     /**
      * 参考价格
@@ -92,10 +98,10 @@ public class Product extends BaseEntity {
     private Float productRealPrice;
 
     /**
-     * 商品图片
+     * 商品图片,URL地址
      */
     @Column(name = "PRODUCT_PICTURE")
-    private byte[] productPicture;
+    private String productPicture;
 
     /**
      * 商品库存

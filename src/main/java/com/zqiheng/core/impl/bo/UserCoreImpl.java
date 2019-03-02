@@ -50,4 +50,9 @@ public class UserCoreImpl extends GenericCore implements UserCore {
         }
         return null;
     }
+
+    @Override
+    public User addUserInfo(User user) {
+        return userDao.save(user);
+    }
 }

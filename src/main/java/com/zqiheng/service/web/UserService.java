@@ -4,6 +4,7 @@ import com.zqiheng.common.config.RetCodeConfig;
 import com.zqiheng.common.utils.StringUtils;
 import com.zqiheng.core.api.bo.UserCore;
 import com.zqiheng.dto.MyCode;
+import com.zqiheng.dto.Params;
 import com.zqiheng.dto.RetCode;
 import com.zqiheng.entity.entitydo.User;
 import lombok.extern.slf4j.Slf4j;
@@ -33,17 +34,6 @@ public class UserService{
     @Autowired
     private RetCodeConfig retCodeConfig;
 
-     /**
-      * description:
-      * <p></p>
-      * change history:
-      * date             defect             person             comments
-      * -------------------------------------------------------------------------------------------------------------------
-      *
-      * @return
-      * @author ZQI
-      * @date 2019/2/24 14:45:30
-     */
     public RetCode<User> findUserInfoByUserID(String userID){
         RetCode<User> retCode = new RetCode<>();
         retCode.setReturnCode(retCodeConfig.getSucc());
@@ -57,5 +47,21 @@ public class UserService{
             }
         }
         return retCode;
+    }
+
+    public User addUserInfo(Params.UserInfo userInfo){
+        if(null != userInfo){
+            User user = new User();
+            user.setUserNick(userInfo.getNickName());
+            user.setUserID(userInfo.getNickName() + "." + 0001);
+            user.setUserGender(Integer.valueOf(userInfo.getGender()));
+            user.setCountry(userInfo.getCountry());
+            user.setProvince(userInfo.getProvince());
+            user.setCity(userInfo.getCity());
+            user.setUserAvatarUrl(userInfo.getAvatarUrl());
+            user.setLanguage(userInfo.getLanguage());
+            return userCore.addUserInfo(user);
+        }
+        return null;
     }
 }
