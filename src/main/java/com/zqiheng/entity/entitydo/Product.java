@@ -31,7 +31,7 @@ public class Product extends BaseEntity {
     /**
      * 商品条码
      */
-    @Column(name = "PRODUCT_ID",unique = true,length = 13)
+    @Column(name = "PRODUCT_ID",length = 13)
     private String productID;
 
     @Column(name = "PRODUCT_NAME",length = 64)
@@ -96,6 +96,12 @@ public class Product extends BaseEntity {
      */
     @Column(name = "PRODUCT_REAL_PRICE")
     private Float productRealPrice;
+
+    /**
+     * 优惠活动价格
+     */
+    @Column(name = "PRODUCT_ACTIVITY_PRICE")
+    private Float productActivityPrice;
 
     /**
      * 商品图片,URL地址

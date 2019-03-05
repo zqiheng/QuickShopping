@@ -10,6 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 /**
  * description:
  * <p>SopUserImpl .<br/></p>
@@ -54,5 +59,11 @@ public class UserCoreImpl extends GenericCore implements UserCore {
     @Override
     public User addUserInfo(User user) {
         return userDao.save(user);
+    }
+
+    @Override
+    public User findUserInfoByUserName(String userName) {
+        return userDao.findOne((Specification<User>)
+                (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("userNick"),userName)).orElse(null);
     }
 }

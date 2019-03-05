@@ -28,6 +28,9 @@ import java.util.Date;
 public class Orders extends BaseEntity {
     private static final long serialVersionUID = 6494829253548465514L;
 
+    /**
+     * 订单ID，订单唯一标识
+     */
     @Column(name = "ORDERS_ID",length = 64,unique = true)
     private String ordersID;
 
@@ -37,7 +40,7 @@ public class Orders extends BaseEntity {
     private Date ordersCreateTime;
 
     /**
-     * 待支付、已支付、已取消、已完成、待配送等
+     * 0：待支付、1：已支付、2：已取消、3：待配送、4：已完成
      */
     @Column(name = "ORDERS_TYPE")
     private Integer ordersType;
@@ -53,4 +56,16 @@ public class Orders extends BaseEntity {
      */
     @Column(name = "PICK_MODE")
     private Integer pickMode;
+
+    /**
+     * 订单创建的门店,关联门店主键
+     */
+    @Column(name = "SHOP_OBJ")
+    private Integer shopObj;
+
+    /**
+     * 配送地址：如果用户选择的是配送方式，则该字段需要关联用户的配送地址
+     */
+    @Column(name = "ADDRESS_OBJ")
+    private Integer addressObj;
 }

@@ -20,7 +20,33 @@ import java.util.List;
  */
 public interface ProductCore extends BaseCore {
 
+     /**
+      * description:
+      * <p>
+      *     get all Product info.
+      * </p>
+      * change history:
+      * date             defect             person             comments
+      * -------------------------------------------------------------------------------------------------------------------
+      *
+      * @return
+      * @author ZQI
+      * @date 2019/3/5 21:34:16
+     */
     public List<Product> getAllProductList();
 
+     /**
+      * description:
+      * <p>
+      *     get one product info by the spec productID.
+      * </p>
+      * change history:
+      * date             defect             person             comments
+      * -------------------------------------------------------------------------------------------------------------------
+      *
+      * @return
+      * @author ZQI
+      * @date 2019/3/5 21:34:34
+     */
     public Product getProductInfo(String productID);
 }

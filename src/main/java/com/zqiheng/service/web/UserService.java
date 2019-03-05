@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class UserService{
+public class UserService {
 
     @Autowired
     private UserCore userCore;
@@ -34,33 +34,54 @@ public class UserService{
     @Autowired
     private RetCodeConfig retCodeConfig;
 
-    public RetCode<User> findUserInfoByUserID(String userID){
+    public RetCode<User> findUserInfoByUserID(String userID) {
         RetCode<User> retCode = new RetCode<>();
         retCode.setReturnCode(retCodeConfig.getSucc());
 
-        if(!StringUtils.isEmpty(userID)){
+        if (!StringUtils.isEmpty(userID)) {
             User userInfo = userCore.findUserInfoByUserID(userID);
-            if(null != userInfo){
+            if (null != userInfo) {
                 retCode.setObject(userInfo);
-            }else{
-                retCode.setReturnCode(new MyCode(retCodeConfig.getError(),"This User info is no exists."));
+            } else {
+                retCode.setReturnCode(new MyCode(retCodeConfig.getError(), "This User info is no exists."));
             }
         }
         return retCode;
     }
 
-    public User addUserInfo(Params.UserInfo userInfo){
-        if(null != userInfo){
-            User user = new User();
-            user.setUserNick(userInfo.getNickName());
-            user.setUserID(userInfo.getNickName() + "." + 0001);
-            user.setUserGender(Integer.valueOf(userInfo.getGender()));
-            user.setCountry(userInfo.getCountry());
-            user.setProvince(userInfo.getProvince());
-            user.setCity(userInfo.getCity());
-            user.setUserAvatarUrl(userInfo.getAvatarUrl());
-            user.setLanguage(userInfo.getLanguage());
-            return userCore.addUserInfo(user);
+    /**
+     * description:
+     * <p>
+     * 添加用户信息。
+     * 备注：如果数据中存在用户信息，则不保存
+     * </p>
+     * change history:
+     * date             defect             person             comments
+     * -------------------------------------------------------------------------------------------------------------------
+     *
+     * @return
+     * @author ZQI
+     * @date 2019/3/5 21:35:52
+     */
+    public User addUserInfo(Params.UserInfo userInfo) {
+        if (null != userInfo) {
+
+            User param = userCore.findUserInfoByUserName(userInfo.getNickName());
+            if (null == param) {
+                User user = new User();
+                user.setUserNick(userInfo.getNickName());
+                user.setUserID(userInfo.getNickName() + "." + 0001);
+                user.setUserGender(Integer.valueOf(userInfo.getGender()));
+                user.setCountry(userInfo.getCountry());
+                user.setProvince(userInfo.getProvince());
+                user.setCity(userInfo.getCity());
+                user.setUserAvatarUrl(userInfo.getAvatarUrl());
+                user.setLanguage(userInfo.getLanguage());
+                return userCore.addUserInfo(user);
+            } else {
+                log.info("该名称的用户信息已经存在。" + userInfo.getNickName());
+            }
+
         }
         return null;
     }

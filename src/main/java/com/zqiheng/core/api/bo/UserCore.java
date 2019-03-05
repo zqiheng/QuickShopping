@@ -56,4 +56,17 @@ public interface UserCore extends BaseCore {
       * @date 2019/3/2 19:54:36
      */
     User addUserInfo(User user);
+    
+     /**
+      * description:
+      * <p></p>
+      * change history:
+      * date             defect             person             comments
+      * -------------------------------------------------------------------------------------------------------------------
+      * 
+      * @return 
+      * @author ZQI
+      * @date 2019/3/5 21:37:40
+     */
+    User findUserInfoByUserName(String userName);
 }

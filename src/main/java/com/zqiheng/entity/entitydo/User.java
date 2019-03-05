@@ -35,7 +35,7 @@ public class User extends BaseEntity {
     /**
      * User Nick, From WeChat.
      */
-    @Column(name = "USER_NICK", length = 64)
+    @Column(name = "USER_NICK", length = 64,unique = true)
     private String userNick;
 
     /**

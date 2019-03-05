@@ -76,4 +76,16 @@ public class Shop extends BaseEntity {
      */
     @Column(name = "SHOP_TEL",length = 15)
     private String shopTel;
+
+    /**
+     * 维度
+     */
+    @Column(name = "LATITUDE",length = 16)
+    private String latitude;
+
+    /**
+     * 经度
+     */
+    @Column(name = "LONGITUDE",length = 16)
+    private String longitude;
 }
