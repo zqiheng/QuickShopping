@@ -36,13 +36,15 @@ public class ProductCoreImpl extends GenericCore implements ProductCore {
     private ProductDao productDao;
 
     @Override
-    public List<Product> getAllProductList(){
-        return productDao.findAll();
+    public List<Product> getAllProductList(int shopObj){
+        return productDao.findAll((Specification<Product>)
+                (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("shopObj"),shopObj));
     }
 
     @Override
-    public Product getProductInfo(String productID) {
-        return productDao.findOne((Specification<Product>)
-                (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("productID"),productID)).orElse(null);
+    public Product getProductInfo(int shopObj, String productID) {
+        return productDao.findOne((Specification<Product>) (root, criteriaQuery, criteriaBuilder) ->
+                criteriaBuilder.and(criteriaBuilder.equal(root.get("productID"), productID),
+                        criteriaBuilder.equal(root.get("shopObj"), shopObj))).orElse(null);
     }
 }

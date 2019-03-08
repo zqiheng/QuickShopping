@@ -33,12 +33,12 @@ public interface ProductCore extends BaseCore {
       * @author ZQI
       * @date 2019/3/5 21:34:16
      */
-    public List<Product> getAllProductList();
+    public List<Product> getAllProductList(int shopObj);
 
      /**
       * description:
       * <p>
-      *     get one product info by the spec productID.
+      *     get one product info by the spec productID and shopObj.
       * </p>
       * change history:
       * date             defect             person             comments
@@ -48,5 +48,5 @@ public interface ProductCore extends BaseCore {
       * @author ZQI
       * @date 2019/3/5 21:34:34
      */
-    public Product getProductInfo(String productID);
+    public Product getProductInfo(int shopObj,String productID);
 }

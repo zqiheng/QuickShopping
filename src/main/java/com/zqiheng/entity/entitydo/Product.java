@@ -124,6 +124,6 @@ public class Product extends BaseEntity {
     /**
      * 商品所属店铺，关联店铺主键
      */
-    @Column(name = "SHOP_OBJ",length = 64)
-    private String shopObj;
+    @Column(name = "SHOP_OBJ")
+    private Integer shopObj;
 }

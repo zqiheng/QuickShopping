@@ -35,15 +35,15 @@ public class ProductService {
         this.productCore = productCore;
     }
 
-    public Map<String,List<Product>> getAllProductListTest(){
+    public Map<String,List<Product>> getAllProductList(int shopObj){
         // 在业务层中需对商品类型(product_type)进行分组
-        List<Product> products = productCore.getAllProductList();
+        List<Product> products = productCore.getAllProductList(shopObj);
         return products.stream().collect(Collectors.groupingBy(Product::getProductType));
     }
 
-    public Product getProductInfo(String productID){
+    public Product getProductInfo(int shopObj,String productID){
         if(!StringUtils.isEmpty(productID)){
-            return productCore.getProductInfo(productID);
+            return productCore.getProductInfo(shopObj,productID);
         }
         return null;
     }

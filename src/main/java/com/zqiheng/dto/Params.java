@@ -37,8 +37,35 @@ public class Params {
         private String avatarUrl;
     }
 
+    /**
+     * 查询多个商品需要的参数
+     */
     @Data
-    public static class ProductID {
+    public static class ProductsReq {
+        private int shopObj;
+    }
+
+    /**
+     * 查询一个商品信息需要的参数
+     */
+    @Data
+    public static class ProductReq {
         private String productID;
+        private int shopObj;
+    }
+
+    /**
+     * 存放用户的定位信息
+     */
+    @Data
+    public static class Position {
+        /**
+         * 经度
+         */
+        private String longitude;
+        /**
+         * 纬度
+         */
+        private String latitude;
     }
 }

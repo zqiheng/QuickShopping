@@ -2,6 +2,7 @@ package com.zqiheng.entity.entitysuper;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +25,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
+@ToString
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
 

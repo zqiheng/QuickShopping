@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.transaction.Transactional;
@@ -32,6 +33,7 @@ import javax.transaction.Transactional;
 @Slf4j
 @Transactional(rollbackOn = Exception.class)
 @RestController
+@RequestMapping(value = "/user")
 public class UserController {
 
     @Autowired
@@ -40,7 +42,7 @@ public class UserController {
     @Autowired
     private PrivilegeCheckReqService privilegeCheckReqService;
 
-    @PostMapping(value = "/user/get_user_info/req")
+    @PostMapping(value = "/get_user_info/req")
     public Response getUserInfo(@RequestBody Params.GetUserInfoParam params){
         log.info("Input UserController::getUserInfo()...");
         // 【Step1】 check the input params.
@@ -64,7 +66,7 @@ public class UserController {
         return Response.createSucc(userRetCode.getObject());
     }
 
-    @PostMapping(value = "/user/add_user_info/add")
+    @PostMapping(value = "/add_user_info/add")
     public Response addUserInfo(@RequestBody Params.UserInfo userInfo){
         Validations.check(null == userInfo,"The input param info is error,"+ userInfo);
         User saved = userService.addUserInfo(userInfo);
