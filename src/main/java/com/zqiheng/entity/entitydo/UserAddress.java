@@ -35,40 +35,25 @@ public class UserAddress extends BaseEntity {
     private Integer userObj;
 
     /**
-     * 用户姓名
+     * 收货人姓名
      */
     @Column(name = "USER_NAME",length = 64)
     private String userName;
 
     /**
-     * 用户电话
+     * 收货人电话
      */
     @Column(name = "USER_PHONE",length = 11)
     private String phone;
 
     /**
-     * 省
+     * 收货人地址
      */
-    @Column(name = "PROVINCE",length = 12)
-    private String province;
+    @Column(name = "ADDRESS",length = 164)
+    private String address;
 
-    /**
-     * 市
-     */
-    @Column(name = "CITY",length = 12)
-    private String city;
-
-    /**
-     * 区/县
-     */
-    @Column(name = "COUNTY",length = 12)
-    private String county;
-
-    /**
-     * 详细地址
-     */
-    @Column(name = "DETAIL_ADDRESS",length = 64)
-    private String detailAddress;
+    @Column(name = "TRANSPORT_DAY",length = 64)
+    private String transportDay;
 
     /**
      * 是否为默认地址，只有一条地址时，为默认地址

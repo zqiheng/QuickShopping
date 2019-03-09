@@ -2,6 +2,7 @@ package com.zqiheng.common.utils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -140,5 +141,14 @@ public class BaseMethod {
                     .forEachOrdered(e -> result.put(e.getKey(), e.getValue()));
         }
         return result;
+    }
+
+    public static String getRandomOrderId() {
+        Random random = new Random(System.currentTimeMillis());
+        int value = random.nextInt();
+        while (value < 0) {
+            value = random.nextInt();
+        }
+        return value + "";
     }
 }

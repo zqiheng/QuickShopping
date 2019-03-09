@@ -3,6 +3,8 @@ package com.zqiheng.dto;
 import com.zqiheng.entity.entitydo.Person;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * description:
  * <p>Params .<br/></p>
@@ -67,5 +69,39 @@ public class Params {
          * 纬度
          */
         private String latitude;
+    }
+
+    /**
+     * 添加收货人地址时的入参
+     */
+    @Data
+    public static class AddressInfo {
+        private int userObj;
+        private List<ConsigneeInfo> consigneeInfos;
+    }
+
+    @Data
+    public static class ConsigneeInfo {
+        /**
+         * 收货人姓名
+         */
+        private String consignee;
+        /**
+         * 收货人电话
+         */
+        private String mobile;
+        /**
+         * 收货人地址
+         */
+        private String address;
+        /**
+         * 收货时间
+         */
+        private String transportDay;
+
+        /**
+         * 是否为默认地址
+         */
+        private boolean idDefaultAddress;
     }
 }
