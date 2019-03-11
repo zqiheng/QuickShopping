@@ -64,9 +64,9 @@ public class UserService {
      * @date 2019/3/5 21:35:52
      */
     public User addUserInfo(Params.UserInfo userInfo) {
+        User param = null;
         if (null != userInfo) {
-
-            User param = userCore.findUserInfoByUserName(userInfo.getNickName());
+            param = userCore.findUserInfoByUserName(userInfo.getNickName());
             if (null == param) {
                 User user = new User();
                 user.setUserNick(userInfo.getNickName());
@@ -81,8 +81,7 @@ public class UserService {
             } else {
                 log.info("该名称的用户信息已经存在。" + userInfo.getNickName());
             }
-
         }
-        return null;
+        return param;
     }
 }

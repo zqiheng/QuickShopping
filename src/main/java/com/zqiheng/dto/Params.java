@@ -83,6 +83,10 @@ public class Params {
     @Data
     public static class ConsigneeInfo {
         /**
+         * 主键id
+         */
+        private int id;
+        /**
          * 收货人姓名
          */
         private String consignee;
@@ -103,5 +107,40 @@ public class Params {
          * 是否为默认地址
          */
         private boolean idDefaultAddress;
+    }
+
+    /**
+     * 添加订单信息所需要的入参
+     */
+    @Data
+    public static class AddOrdersInfo {
+        private int userObj;
+        private int shopObj;
+        private int addressObj;
+        private boolean pickUpOnself;
+        List<GoodsItems> goodsItems;
+    }
+
+    @Data
+    public static class GoodsItems {
+        private int goodsId;   // id
+        private String productID;
+        private String productName;
+//        private String productBrand;
+//        private String factoryName;
+//        private String productNorm;
+//        private String productPackingUnit;
+//        private String productPicture;
+//        private String productRemark;
+        private String productType;
+        private String productTypeName;
+//        private String registeredAddress;
+//        private int sellQuantity;
+        private int shopObj;
+//        private int stockQuantity;
+        private float activityPrice;
+        private float price;
+        private int count;
+        private float totalMoney;
     }
 }

@@ -1,7 +1,6 @@
 package com.zqiheng.core.impl.bo;
 
 import com.zqiheng.common.utils.ArrayUtils;
-import com.zqiheng.common.utils.StringUtils;
 import com.zqiheng.core.api.bo.UserAddressCore;
 import com.zqiheng.core.impl.GenericCore;
 import com.zqiheng.dto.Params;
@@ -12,10 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,20 +43,40 @@ public class UserAddressCoreImpl extends GenericCore implements UserAddressCore 
 
         // 【step2】save all the new address.
         List<UserAddress> newAddresses = new ArrayList<>();
-        consigneeInfos.forEach(param->{
+        consigneeInfos.forEach(param -> {
             UserAddress userAddress = new UserAddress();
             userAddress.setAddress(param.getAddress());
             userAddress.setDefaultAddress(param.isIdDefaultAddress());
-            userAddress.setPhone(param.getMobile());
+            userAddress.setMobile(param.getMobile());
             userAddress.setTransportDay(param.getTransportDay());
-            userAddress.setUserName(param.getConsignee());
+            userAddress.setConsignee(param.getConsignee());
             userAddress.setUserObj(userObj);
             newAddresses.add(userAddress);
         });
         List<UserAddress> savedAddresses = userAddressDao.saveAll(newAddresses);
-        if(!ArrayUtils.isEmpty(savedAddresses)){
+        if (!ArrayUtils.isEmpty(savedAddresses)) {
             return savedAddresses;
         }
         return null;
+    }
+
+    @Override
+    public List<Params.ConsigneeInfo> getUserAddressInfo(int userObj) {
+        List<Params.ConsigneeInfo> retVal = new ArrayList<>();
+        List<UserAddress> userAddresses = userAddressDao.findAll((Specification<UserAddress>)
+                (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("userObj"), userObj));
+        if (!ArrayUtils.isEmpty(userAddresses)) {
+            userAddresses.forEach(param -> {
+                Params.ConsigneeInfo consigneeInfo = new Params.ConsigneeInfo();
+                consigneeInfo.setId(param.getId());
+                consigneeInfo.setConsignee(param.getConsignee());
+                consigneeInfo.setAddress(param.getAddress());
+                consigneeInfo.setIdDefaultAddress(param.isDefaultAddress());
+                consigneeInfo.setMobile(param.getMobile());
+                consigneeInfo.setTransportDay(param.getTransportDay());
+                retVal.add(consigneeInfo);
+            });
+        }
+        return retVal;
     }
 }

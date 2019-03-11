@@ -21,18 +21,31 @@ import java.util.List;
  */
 public interface UserAddressCore extends BaseCore {
 
-     /**
-      * description:
-      * <p>
-      *     添加用户收货地址信息
-      * </p>
-      * change history:
-      * date             defect             person             comments
-      * -------------------------------------------------------------------------------------------------------------------
-      *
-      * @return
-      * @author ZQI
-      * @date 2019/3/9 22:21:16
+    /**
+     * description:
+     * <p>
+     * 添加用户收货地址信息
+     * </p>
+     * change history:
+     * date             defect             person             comments
+     * -------------------------------------------------------------------------------------------------------------------
+     *
+     * @return
+     * @author ZQI
+     * @date 2019/3/9 22:21:16
      */
-     List<UserAddress> addUserAddressInfo(int userObj, List<Params.ConsigneeInfo> consigneeInfos);
+    List<UserAddress> addUserAddressInfo(int userObj, List<Params.ConsigneeInfo> consigneeInfos);
+
+    /**
+     * description:
+     * <p></p>
+     * change history:
+     * date             defect             person             comments
+     * -------------------------------------------------------------------------------------------------------------------
+     *
+     * @return
+     * @author ZQI
+     * @date 2019/3/10 10:59:42
+     */
+    List<Params.ConsigneeInfo> getUserAddressInfo(int userObj);
 }

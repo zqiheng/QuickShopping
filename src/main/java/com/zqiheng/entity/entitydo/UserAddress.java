@@ -38,13 +38,13 @@ public class UserAddress extends BaseEntity {
      * 收货人姓名
      */
     @Column(name = "USER_NAME",length = 64)
-    private String userName;
+    private String consignee;
 
     /**
      * 收货人电话
      */
     @Column(name = "USER_PHONE",length = 11)
-    private String phone;
+    private String mobile;
 
     /**
      * 收货人地址

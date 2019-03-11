@@ -40,22 +40,22 @@ public class Orders extends BaseEntity {
     private Date ordersCreateTime;
 
     /**
-     * 0：待支付、1：已支付、2：已取消、3：待配送、4：已完成
+     * 0：已完成、1：待自提、2：待配送、3：已取消
      */
     @Column(name = "ORDERS_TYPE")
     private Integer ordersType;
+
+    /**
+     * 提货方式，0：上门自提，1：配送
+     */
+    @Column(name = "PICK_MODE")
+    private boolean pickMode;
 
     /**
      * 关联User主键
      */
     @Column(name = "USER_OBJ")
     private Integer userObj;
-
-    /**
-     * 提货方式，0：上门自提，1：配送
-     */
-    @Column(name = "PICK_MODE")
-    private Integer pickMode;
 
     /**
      * 订单创建的门店,关联门店主键

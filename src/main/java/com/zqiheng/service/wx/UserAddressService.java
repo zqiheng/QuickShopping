@@ -55,4 +55,19 @@ public class UserAddressService {
         }
         return null;
     }
+    
+     /**
+      * description:
+      * <p></p>
+      * change history:
+      * date             defect             person             comments
+      * -------------------------------------------------------------------------------------------------------------------
+      * 
+      * @return
+      * @author ZQI
+      * @date 2019/3/10 14:58:56
+     */
+    public List<Params.ConsigneeInfo> getUserAddress(int userObj){
+        return userAddressCore.getUserAddressInfo(userObj);
+    }
 }

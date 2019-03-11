@@ -48,4 +48,15 @@ public class UserAddressController {
         }
         return Response.createError("Add the address info error...");
     }
+
+    @PostMapping(value = "/get_user_address/req")
+    public Response getUserAddress(@RequestBody Params.AddressInfo addressInfo){
+        Validations.check(null == addressInfo,"The input param is null.");
+        log.info("查询用户地址的条件为："+addressInfo.getUserObj());
+        List<Params.ConsigneeInfo> userAddress = userAddressService.getUserAddress(addressInfo.getUserObj());
+        if(!ArrayUtils.isEmpty(userAddress)){
+            return Response.createSucc(userAddress);
+        }
+        return Response.createError("Not found the userObj info.");
+    }
 }

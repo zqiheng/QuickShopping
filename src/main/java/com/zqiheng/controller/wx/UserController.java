@@ -70,9 +70,6 @@ public class UserController {
     public Response addUserInfo(@RequestBody Params.UserInfo userInfo){
         Validations.check(null == userInfo,"The input param info is error,"+ userInfo);
         User saved = userService.addUserInfo(userInfo);
-        if(null == saved){
-            return Response.createError("Error saved...");
-        }
         return Response.createSucc(saved);
     }
 }
