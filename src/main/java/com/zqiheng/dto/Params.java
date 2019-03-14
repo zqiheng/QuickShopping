@@ -118,6 +118,9 @@ public class Params {
         private int shopObj;
         private int addressObj;
         private boolean pickUpOnself;
+        // 标明用户支付时是选择确认还是取消支付
+        private boolean payFlag;
+        private String ordersRemark;
         List<GoodsItems> goodsItems;
     }
 
@@ -126,21 +129,26 @@ public class Params {
         private int goodsId;   // id
         private String productID;
         private String productName;
-//        private String productBrand;
-//        private String factoryName;
-//        private String productNorm;
-//        private String productPackingUnit;
-//        private String productPicture;
-//        private String productRemark;
+        /*private String productBrand;*/
+        /*private String factoryName;*/
+        /*private String productNorm;*/
+        /*private String productPackingUnit;*/
+        /*private String productPicture;*/
+        /*private String productRemark;*/
         private String productType;
         private String productTypeName;
-//        private String registeredAddress;
-//        private int sellQuantity;
+        /*private String registeredAddress;*/
+        /*private int sellQuantity;*/
         private int shopObj;
-//        private int stockQuantity;
+        /*private int stockQuantity;*/
         private float activityPrice;
         private float price;
         private int count;
         private float totalMoney;
+    }
+
+    @Data
+    public static class GetOrdersInfoParams {
+        private int userObj;
     }
 }

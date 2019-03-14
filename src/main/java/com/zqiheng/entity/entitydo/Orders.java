@@ -31,7 +31,7 @@ public class Orders extends BaseEntity {
     /**
      * 订单ID，订单唯一标识
      */
-    @Column(name = "ORDERS_ID",length = 64,unique = true)
+    @Column(name = "ORDERS_ID", length = 64, unique = true)
     private String ordersID;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -39,8 +39,13 @@ public class Orders extends BaseEntity {
     @Column(name = "ORDERS_CREATE_TIME")
     private Date ordersCreateTime;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy:MM:dd HH:mm:ss")
+    @Column(name = "ORDERS_COMPLETE_TIME")
+    private Date ordersCompleteTime;
+
     /**
-     * 0：已完成、1：待自提、2：待配送、3：已取消
+     * 0：已完成、1：待自提、2：待配送、3：待收货、4：已取消
      */
     @Column(name = "ORDERS_TYPE")
     private Integer ordersType;
@@ -68,4 +73,10 @@ public class Orders extends BaseEntity {
      */
     @Column(name = "ADDRESS_OBJ")
     private Integer addressObj;
+
+    /**
+     * 订单备注
+     */
+    @Column(name = "ORDERS_REMARK")
+    private String ordersRemark;
 }

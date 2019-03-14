@@ -29,7 +29,7 @@ public class OrderDetails extends BaseEntity {
 
     private static final long serialVersionUID = -7865532992130929326L;
 
-    @Column(name = "ORDER_DETAILS_ID", length = 64,unique = true)
+    @Column(name = "ORDER_DETAILS_ID", length = 64)
     private String orderDetailsID;
 
     /**

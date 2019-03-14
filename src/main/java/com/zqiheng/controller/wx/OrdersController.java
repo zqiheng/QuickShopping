@@ -1,15 +1,21 @@
 package com.zqiheng.controller.wx;
 
+import com.zqiheng.common.utils.ArrayUtils;
 import com.zqiheng.common.utils.Validations;
+import com.zqiheng.dto.Infos;
 import com.zqiheng.dto.Params;
 import com.zqiheng.dto.Response;
+import com.zqiheng.entity.entitydo.Orders;
+import com.zqiheng.service.wx.OrdersService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * description:
@@ -30,10 +36,29 @@ import javax.transaction.Transactional;
 @RequestMapping(value = "/orders")
 public class OrdersController {
 
+    @Autowired
+    private OrdersService ordersService;
+
     @PostMapping(value = "/add_orders_info/add")
     public Response addOrdersInfo(@RequestBody Params.AddOrdersInfo ordersInfo){
         Validations.check(null == ordersInfo,"The input params in null.");
         log.info("添加订单的信息：" + ordersInfo);
-        return Response.createSucc(null);
+
+        Orders orders = ordersService.addOrdersInfo(ordersInfo);
+        if(null == orders){
+            return Response.createError("Add orders fail...");
+        }
+        return Response.createSucc(orders);
+    }
+
+    @PostMapping(value = "/get_orders_info/req")
+    public Response getOrdersInfo(@RequestBody Params.GetOrdersInfoParams getOrdersInfoParams){
+        Validations.check(null == getOrdersInfoParams,"The input params is null..");
+        log.info("查询订单的条件为："+getOrdersInfoParams.getUserObj());
+        List<Infos.OrdersInfo> ordersInfo = ordersService.getOrdersInfo(getOrdersInfoParams);
+        if(ArrayUtils.isEmpty(ordersInfo)){
+           return Response.createError("Query fail...");
+        }
+        return Response.createSucc(ordersInfo);
     }
 }

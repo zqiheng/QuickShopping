@@ -1,8 +1,14 @@
 package com.zqiheng.dto;
 
+import com.zqiheng.entity.entitydo.Product;
+import com.zqiheng.entity.entitydo.Shop;
+import com.zqiheng.entity.entitydo.User;
+import com.zqiheng.entity.entitydo.UserAddress;
 import lombok.Data;
 
 import javax.persistence.Column;
+import java.util.Date;
+import java.util.List;
 
 /**
  * description:
@@ -37,5 +43,33 @@ public class Infos {
          * 距离用户的距离
          */
         private double distance;
+    }
+
+    /**
+     * 自定义返回参数封装。【订单信息】
+     */
+    @Data
+    public static class OrdersInfo {
+        private String ordersId;
+        private Date ordersCreateTime;
+        private Date ordersCompleteTime;
+        private int ordersType;
+        private boolean pickUpOneself;
+        private User userInfo;
+        private Shop shopInfo;
+        private UserAddress addressInfo;
+        private String ordersRemark;
+        private List<OrderDetailsInfo> orderDetailsInfoList;
+    }
+
+    /**
+     * 自定义返回参数封装。【订单详细列表商品信息】
+     */
+    @Data
+    public static class OrderDetailsInfo{
+        private Product productInfo;
+        private int productNum;
+        private float productPrice;
+        private Date buyTime;
     }
 }

@@ -1,10 +1,9 @@
 package com.zqiheng.common.utils;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -24,8 +23,11 @@ import java.util.stream.Stream;
  */
 public class BaseMethod {
 
-    public BaseMethod() {
+    private BaseMethod() {
     }
+
+    private static final Object LOCKER_A = new Object();
+    private static final Object LOCKER_B = new Object();
 
     /**
      * description:
@@ -143,12 +145,32 @@ public class BaseMethod {
         return result;
     }
 
-    public static String getRandomOrderId() {
-        Random random = new Random(System.currentTimeMillis());
-        int value = random.nextInt();
-        while (value < 0) {
-            value = random.nextInt();
+     /**
+      * description:
+      * <p>
+      *     订单号生成规则【唯一】
+      *
+      * </p>
+      * change history:
+      * date             defect             person             comments
+      * -------------------------------------------------------------------------------------------------------------------
+      *
+      * @return
+      * @author ZQI
+      * @date 2019/3/13 21:48:43
+     */
+    public static String generateId() {
+        synchronized (LOCKER_A){
+            Random random = new Random(System.currentTimeMillis());
+            int value = random.nextInt();
+            while (value < 10000000) {
+                value = random.nextInt();
+            }
+            synchronized (LOCKER_B){
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+                String format = simpleDateFormat.format(new Date());
+                return format + value;
+            }
         }
-        return value + "";
     }
 }
