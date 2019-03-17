@@ -79,4 +79,16 @@ public class Orders extends BaseEntity {
      */
     @Column(name = "ORDERS_REMARK")
     private String ordersRemark;
+
+    /**
+     * 该订单包含的商品总数量
+     */
+    @Column(name = "TOTAL_NUM")
+    private int totalNum;
+
+    /**
+     * 该订单所有商品购买价格
+     */
+    @Column(name = "TOTAL_MONEY")
+    private float totalMoney;
 }

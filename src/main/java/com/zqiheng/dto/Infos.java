@@ -51,14 +51,16 @@ public class Infos {
     @Data
     public static class OrdersInfo {
         private String ordersId;
-        private Date ordersCreateTime;
-        private Date ordersCompleteTime;
+        private String ordersCreateTime;  // 【yyyy-MM-dd HH:mm:ss】
+        private String ordersCompleteTime; // 【yyyy-MM-dd HH:mm:ss】
         private int ordersType;
         private boolean pickUpOneself;
         private User userInfo;
         private Shop shopInfo;
         private UserAddress addressInfo;
         private String ordersRemark;
+        private int totalNum;
+        private float totalMoney;
         private List<OrderDetailsInfo> orderDetailsInfoList;
     }
 

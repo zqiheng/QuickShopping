@@ -8,13 +8,17 @@ import com.zqiheng.dto.Params;
 import com.zqiheng.entity.entitydo.*;
 import com.zqiheng.repository.OrderDetailsDao;
 import com.zqiheng.repository.OrdersDao;
+import com.zqiheng.repository.ProductDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * description:
@@ -38,6 +42,9 @@ public class OrdersCoreImpl extends GenericCore implements OrdersCore {
 
     @Autowired
     private OrderDetailsDao orderDetailsDao;
+
+    @Autowired
+    private ProductDao productDao;
 
 
     @Override
@@ -78,10 +85,19 @@ public class OrdersCoreImpl extends GenericCore implements OrdersCore {
             // 用户取消付款，订单改为已取消状态
             orders.setOrdersType(4);
         }
-
+        List<Params.GoodsItems> goodsItemsList = ordersInfo.getGoodsItems();
+        // 计算该订单所有商品的数量和购买价格
+        int totalNum = 0;
+        float totalMoney = 0;
+        for (Params.GoodsItems items : goodsItemsList) {
+            totalNum += items.getCount();
+            totalMoney += (items.getCount() * items.getPrice());
+        }
+        orders.setTotalMoney(totalMoney);
+        orders.setTotalNum(totalNum);
         Orders savedOrders = ordersDao.save(orders);
 
-        List<Params.GoodsItems> goodsItemsList = ordersInfo.getGoodsItems();
+        // 保存订单商品信息
         List<OrderDetails> orderDetails = new ArrayList<>();
         if (!ArrayUtils.isEmpty(goodsItemsList)) {
             goodsItemsList.forEach(param -> {
@@ -92,6 +108,13 @@ public class OrdersCoreImpl extends GenericCore implements OrdersCore {
                 orderDetail.setProductNum(param.getCount());
                 orderDetail.setProductObj(param.getGoodsId());
                 orderDetail.setProductPrice(param.getPrice());
+                /*************** 减少购买商品的库存信息 **************/
+                Product product = convertIdToObject(Product.class,param.getGoodsId());
+                Validations.check(null == product,"The product Info is null");
+                product.setSellQuantity((null == product.getSellQuantity() ? 0 : product.getSellQuantity()) + param.getCount());
+                product.setStockQuantity(product.getStockQuantity() - param.getCount());
+                productDao.save(product);
+
                 orderDetails.add(orderDetail);
             });
         } else {
@@ -107,17 +130,22 @@ public class OrdersCoreImpl extends GenericCore implements OrdersCore {
         User user = convertIdToObject(User.class, userObj);
         Validations.check(null == user, "The user is null...");
         List<Infos.OrdersInfo> retVal = new ArrayList<>();
-        final List<Orders> ordersList = ordersDao.findAll((Specification<Orders>)
+        List<Orders> ordersList = ordersDao.findAll((Specification<Orders>)
                 (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("userObj"), userObj));
+        // 根据ID 倒序排序
+        ordersList = ordersList.stream().sorted(Comparator.comparing(Orders::getId).reversed()).collect(Collectors.toList());
         if (!ArrayUtils.isEmpty(ordersList)) {
             ordersList.forEach(param -> {
                 Infos.OrdersInfo ordersInfo = new Infos.OrdersInfo();
                 ordersInfo.setOrdersId(param.getOrdersID());
                 ordersInfo.setOrdersRemark(param.getOrdersRemark());
-                ordersInfo.setOrdersCompleteTime(param.getOrdersCompleteTime());
-                ordersInfo.setOrdersCreateTime(param.getOrdersCreateTime());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                ordersInfo.setOrdersCreateTime(null == param.getOrdersCreateTime() ? null : sdf.format(param.getOrdersCreateTime()));
+                ordersInfo.setOrdersCompleteTime(null == param.getOrdersCompleteTime() ? null : sdf.format(param.getOrdersCompleteTime()));
                 ordersInfo.setOrdersType(param.getOrdersType());
                 ordersInfo.setPickUpOneself(param.isPickMode());
+                ordersInfo.setTotalMoney(param.getTotalMoney());
+                ordersInfo.setTotalNum(param.getTotalNum());
 
                 Shop shop = convertIdToObject(Shop.class, param.getShopObj());
                 Validations.check(null == shop, "The shop info is null...");
@@ -125,7 +153,7 @@ public class OrdersCoreImpl extends GenericCore implements OrdersCore {
 
                 ordersInfo.setUserInfo(user);
 
-                if(param.getAddressObj() != null){
+                if (param.getAddressObj() != null) {
                     UserAddress userAddress = convertIdToObject(UserAddress.class, param.getAddressObj());
                     ordersInfo.setAddressInfo(userAddress);
                 }
