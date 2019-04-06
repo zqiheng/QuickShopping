@@ -86,7 +86,7 @@ public class Product extends BaseEntity {
     private String productTypeName;
 
     /**
-     * 参考价格
+     * 进货价格
      */
     @Column(name = "PRODUCT_PROPOSED_PRICE")
     private Float productProposedPrice;

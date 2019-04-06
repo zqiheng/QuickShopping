@@ -52,6 +52,9 @@ public class UserAddress extends BaseEntity {
     @Column(name = "ADDRESS",length = 164)
     private String address;
 
+    /**
+     * 收货时间段
+     */
     @Column(name = "TRANSPORT_DAY",length = 64)
     private String transportDay;
 

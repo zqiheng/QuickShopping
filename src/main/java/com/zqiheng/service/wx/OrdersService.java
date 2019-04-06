@@ -51,10 +51,43 @@ public class OrdersService {
         return ordersCore.addOrdersInfoByUserInfo(addOrdersInfo);
     }
 
+     /**
+      * description:
+      * <p>
+      *     获取用户全部订单信息
+      * </p>
+      * change history:
+      * date             defect             person             comments
+      * -------------------------------------------------------------------------------------------------------------------
+      *
+      * @return
+      * @author ZQI
+      * @date 2019/3/19 22:18:41
+     */
     public List<Infos .OrdersInfo> getOrdersInfo(Params.GetOrdersInfoParams getOrdersInfoParams){
         if(null == getOrdersInfoParams){
             return null;
         }
-        return ordersCore.getOrdersInfoByUserObj(getOrdersInfoParams.getUserObj());
+        return ordersCore.getAllOrdersInfo(getOrdersInfoParams.getUserObj());
+    }
+
+    /**
+     * description:
+     * <p>
+     *      获取用户一条订单信息
+     * </p>
+     * change history:
+     * date             defect             person             comments
+     * -------------------------------------------------------------------------------------------------------------------
+     *
+     * @return
+     * @author ZQI
+     * @date 2019/3/19 22:21:07
+     */
+    public Infos.OrdersInfo getOneOrdersInfo(Params.GetOneOrdersInfoParams getOneOrdersInfoParams) {
+        if (null == getOneOrdersInfoParams) {
+            return null;
+        }
+        return ordersCore.getOneOrdersInfo(getOneOrdersInfoParams.getUserObj(), getOneOrdersInfoParams.getOrdersID());
     }
 }

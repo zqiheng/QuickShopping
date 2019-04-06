@@ -91,4 +91,16 @@ public class Orders extends BaseEntity {
      */
     @Column(name = "TOTAL_MONEY")
     private float totalMoney;
+
+    /**
+     * 是否为优惠订单，默认为 false
+     */
+    @Column(name = "DISCOUNT")
+    private boolean isDiscount;
+
+    /**
+     * 优惠价格
+     */
+    @Column(name = "discount_money")
+    private float discountMoney;
 }

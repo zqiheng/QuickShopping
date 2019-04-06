@@ -122,6 +122,7 @@ public class Params {
         private boolean payFlag;
         private String ordersRemark;
         List<GoodsItems> goodsItems;
+        private float discountMoneys;
     }
 
     @Data
@@ -150,5 +151,11 @@ public class Params {
     @Data
     public static class GetOrdersInfoParams {
         private int userObj;
+    }
+
+    @Data
+    public static class GetOneOrdersInfoParams {
+        private int userObj;
+        private String ordersID;
     }
 }

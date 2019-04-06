@@ -41,7 +41,7 @@ public interface OrdersCore extends BaseCore {
     /**
      * description:
      * <p>
-     *     根据用户id，获取用户的订单信息。
+     * 根据用户id，获取用户的订单信息。
      * </p>
      * change history:
      * date             defect             person             comments
@@ -51,5 +51,20 @@ public interface OrdersCore extends BaseCore {
      * @author ZQI
      * @date 2019/3/14 10:24:10
      */
-    List<Infos.OrdersInfo> getOrdersInfoByUserObj(int userObj);
+    List<Infos.OrdersInfo> getAllOrdersInfo(int userObj);
+
+    /**
+     * description:
+     * <p>
+     * 根据订单ID获取订单信息
+     * </p>
+     * change history:
+     * date             defect             person             comments
+     * -------------------------------------------------------------------------------------------------------------------
+     *
+     * @return
+     * @author ZQI
+     * @date 2019/3/19 22:03:24
+     */
+    Infos.OrdersInfo getOneOrdersInfo(int userObj,String ordersID);
 }

@@ -14,6 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -64,6 +68,12 @@ public class OrdersCoreImpl extends GenericCore implements OrdersCore {
         orders.setUserObj(user.getId());
         orders.setPickMode(ordersInfo.isPickUpOnself());
         orders.setOrdersRemark(ordersInfo.getOrdersRemark());
+        orders.setDiscountMoney(ordersInfo.getDiscountMoneys());
+        if(ordersInfo.getDiscountMoneys() != 0){
+            orders.setDiscount(true);
+        } else {
+            orders.setDiscount(false);
+        }
 
         /**  订单状态：0：已完成、1：待自提、2：待配送、3：待收货、4：已取消 */
         // if payFlag is true.
@@ -126,7 +136,7 @@ public class OrdersCoreImpl extends GenericCore implements OrdersCore {
     }
 
     @Override
-    public List<Infos.OrdersInfo> getOrdersInfoByUserObj(int userObj) {
+    public List<Infos.OrdersInfo> getAllOrdersInfo(int userObj) {
         User user = convertIdToObject(User.class, userObj);
         Validations.check(null == user, "The user is null...");
         List<Infos.OrdersInfo> retVal = new ArrayList<>();
@@ -146,6 +156,8 @@ public class OrdersCoreImpl extends GenericCore implements OrdersCore {
                 ordersInfo.setPickUpOneself(param.isPickMode());
                 ordersInfo.setTotalMoney(param.getTotalMoney());
                 ordersInfo.setTotalNum(param.getTotalNum());
+                ordersInfo.setDiscount(param.isDiscount());
+                ordersInfo.setDiscountMoneys(param.getDiscountMoney());
 
                 Shop shop = convertIdToObject(Shop.class, param.getShopObj());
                 Validations.check(null == shop, "The shop info is null...");
@@ -175,6 +187,66 @@ public class OrdersCoreImpl extends GenericCore implements OrdersCore {
                 ordersInfo.setOrderDetailsInfoList(orderDetailsInfoList);
                 retVal.add(ordersInfo);
             });
+        }
+        return retVal;
+    }
+
+    @Override
+    public Infos.OrdersInfo getOneOrdersInfo(int userObj,String ordersID) {
+        User user = convertIdToObject(User.class, userObj);
+        Validations.check(null == user, "The user is null...");
+        Infos.OrdersInfo retVal = new Infos.OrdersInfo();
+        Orders orders = null;
+        if(!StringUtils.isEmpty(ordersID)){
+            // 如果入参 ordersID 不为空，则返回该订单信息
+            orders = ordersDao.findOne((Specification<Orders>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.and(
+                    criteriaBuilder.equal(root.get("userObj"),user.getId()),
+                    criteriaBuilder.equal(root.get("ordersID"),ordersID)
+            )).orElse(null);
+        } else {
+            // 如果入参 ordersID 为空，则返回该用户的最后一条订单
+            List<Orders> ordersList = ordersDao.findAll((Specification<Orders>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("userObj"), userObj));
+            orders = ordersList.get(ordersList.size() - 1);
+        }
+        if(null != orders){
+            retVal.setOrdersId(orders.getOrdersID());
+            retVal.setOrdersRemark(orders.getOrdersRemark());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            retVal.setOrdersCreateTime(null == orders.getOrdersCreateTime() ? null : sdf.format(orders.getOrdersCreateTime()));
+            retVal.setOrdersCompleteTime(null == orders.getOrdersCompleteTime() ? null : sdf.format(orders.getOrdersCompleteTime()));
+            retVal.setOrdersType(orders.getOrdersType());
+            retVal.setPickUpOneself(orders.isPickMode());
+            retVal.setTotalMoney(orders.getTotalMoney());
+            retVal.setTotalNum(orders.getTotalNum());
+            retVal.setDiscount(orders.isDiscount());
+            retVal.setDiscountMoneys(orders.getDiscountMoney());
+
+            Shop shop = convertIdToObject(Shop.class, orders.getShopObj());
+            Validations.check(null == shop, "The shop info is null...");
+            retVal.setShopInfo(shop);
+            retVal.setUserInfo(user);
+
+            if (orders.getAddressObj() != null) {
+                UserAddress userAddress = convertIdToObject(UserAddress.class, orders.getAddressObj());
+                retVal.setAddressInfo(userAddress);
+            }
+            int id = orders.getId();
+            List<Infos.OrderDetailsInfo> orderDetailsInfoList = new ArrayList<>();
+            List<OrderDetails> orderDetails = orderDetailsDao.findAll((Specification<OrderDetails>)
+                    (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("orderObj"), id));
+            if (!ArrayUtils.isEmpty(orderDetails)) {
+                orderDetails.forEach(x -> {
+                    Infos.OrderDetailsInfo info = new Infos.OrderDetailsInfo();
+                    info.setBuyTime(x.getProductBuyTime());
+                    info.setProductNum(x.getProductNum());
+                    info.setProductPrice(x.getProductPrice());
+                    Product product = convertIdToObject(Product.class, x.getProductObj());
+                    Validations.check(null == product,"The product info is null....");
+                    info.setProductInfo(product);
+                    orderDetailsInfoList.add(info);
+                });
+            }
+            retVal.setOrderDetailsInfoList(orderDetailsInfoList);
         }
         return retVal;
     }

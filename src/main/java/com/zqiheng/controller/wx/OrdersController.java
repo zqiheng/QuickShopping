@@ -51,8 +51,8 @@ public class OrdersController {
         return Response.createSucc(orders);
     }
 
-    @PostMapping(value = "/get_orders_info/req")
-    public Response getOrdersInfo(@RequestBody Params.GetOrdersInfoParams getOrdersInfoParams){
+    @PostMapping(value = "/get_all_orders_info/req")
+    public Response getAllOrdersInfo(@RequestBody Params.GetOrdersInfoParams getOrdersInfoParams){
         Validations.check(null == getOrdersInfoParams,"The input params is null..");
         log.info("查询订单的条件为："+getOrdersInfoParams.getUserObj());
         List<Infos.OrdersInfo> ordersInfo = ordersService.getOrdersInfo(getOrdersInfoParams);
@@ -60,5 +60,16 @@ public class OrdersController {
            return Response.createError("Query fail...");
         }
         return Response.createSucc(ordersInfo);
+    }
+
+    @PostMapping(value = "get_one_orders_info/req")
+    public Response getOneOrdersInfo(@RequestBody Params.GetOneOrdersInfoParams getOneOrdersInfoParams){
+        Validations.check(null == getOneOrdersInfoParams,"The input params is null..");
+        log.info("查询订单的条件为：userObj: " + getOneOrdersInfoParams.getUserObj() + " ordersID: " + getOneOrdersInfoParams.getOrdersID());
+        Infos.OrdersInfo oneOrdersInfo = ordersService.getOneOrdersInfo(getOneOrdersInfoParams);
+        if(null == oneOrdersInfo){
+            return Response.createError("Query fail...");
+        }
+        return Response.createSucc(oneOrdersInfo);
     }
 }

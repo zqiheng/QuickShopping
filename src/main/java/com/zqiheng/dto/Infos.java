@@ -61,6 +61,8 @@ public class Infos {
         private String ordersRemark;
         private int totalNum;
         private float totalMoney;
+        private float discountMoneys;
+        private boolean discount;
         private List<OrderDetailsInfo> orderDetailsInfoList;
     }
 
