@@ -76,4 +76,9 @@ public class Infos {
         private float productPrice;
         private Date buyTime;
     }
+
+    @Data
+    public static class ConfirmReceiptReturnParam{
+        private boolean updateFlag;
+    }
 }

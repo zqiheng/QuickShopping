@@ -1,5 +1,6 @@
 package com.zqiheng.core.impl.bo;
 
+import com.zqiheng.common.exception.ServiceException;
 import com.zqiheng.common.utils.*;
 import com.zqiheng.core.api.bo.OrdersCore;
 import com.zqiheng.core.impl.GenericCore;
@@ -9,6 +10,7 @@ import com.zqiheng.entity.entitydo.*;
 import com.zqiheng.repository.OrderDetailsDao;
 import com.zqiheng.repository.OrdersDao;
 import com.zqiheng.repository.ProductDao;
+import com.zqiheng.repository.UserDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -49,6 +51,9 @@ public class OrdersCoreImpl extends GenericCore implements OrdersCore {
 
     @Autowired
     private ProductDao productDao;
+
+    @Autowired
+    private UserDao userDao;
 
 
     @Override
@@ -249,5 +254,24 @@ public class OrdersCoreImpl extends GenericCore implements OrdersCore {
             retVal.setOrderDetailsInfoList(orderDetailsInfoList);
         }
         return retVal;
+    }
+
+    @Override
+    public boolean confirmReceipt(int userObj, String ordersID) {
+        User user = userDao.findOne((Specification<User>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), userObj)).orElse(null);
+        Validations.check(null == user,"The user info is null..");
+        Orders orders = ordersDao.findOne((Specification<Orders>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("ordersID"), ordersID)).orElse(null);
+        Validations.check(null == orders,"The orders info is null..");
+
+        if(orders.getOrdersType() == 3){
+            // if ordersType == 3. change the state to 0.
+            orders.setOrdersType(0);
+            // add the complete time.
+            orders.setOrdersCompleteTime(DateUtils.getCurrentTimeStamp());
+            ordersDao.save(orders);
+            return true;
+        } else {
+            throw new ServiceException("The Orders can't confirm receipt.");
+        }
     }
 }

@@ -90,4 +90,25 @@ public class OrdersService {
         }
         return ordersCore.getOneOrdersInfo(getOneOrdersInfoParams.getUserObj(), getOneOrdersInfoParams.getOrdersID());
     }
+
+     /**
+      * description:
+      * <p></p>
+      * change history:
+      * date             defect             person             comments
+      * -------------------------------------------------------------------------------------------------------------------
+      *
+      * @return
+      * @author ZQI
+      * @date 2019/4/20 19:33:29
+     */
+    public Infos.ConfirmReceiptReturnParam confirmReceipt(Params.ConfirmReceiptParams confirmReceiptParams){
+        if(null != confirmReceiptParams){
+            Infos.ConfirmReceiptReturnParam retVal = new Infos.ConfirmReceiptReturnParam();
+            boolean confirmFlag = ordersCore.confirmReceipt(confirmReceiptParams.getUserObj(), confirmReceiptParams.getOrdersID());
+            retVal.setUpdateFlag(confirmFlag);
+            return retVal;
+        }
+        return null;
+    }
 }

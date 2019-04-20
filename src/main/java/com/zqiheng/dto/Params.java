@@ -158,4 +158,10 @@ public class Params {
         private int userObj;
         private String ordersID;
     }
+
+    @Data
+    public static class ConfirmReceiptParams {
+        private int userObj;
+        private String ordersID;
+    }
 }

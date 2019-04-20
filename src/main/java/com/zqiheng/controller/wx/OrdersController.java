@@ -62,7 +62,7 @@ public class OrdersController {
         return Response.createSucc(ordersInfo);
     }
 
-    @PostMapping(value = "get_one_orders_info/req")
+    @PostMapping(value = "/get_one_orders_info/req")
     public Response getOneOrdersInfo(@RequestBody Params.GetOneOrdersInfoParams getOneOrdersInfoParams){
         Validations.check(null == getOneOrdersInfoParams,"The input params is null..");
         log.info("查询订单的条件为：userObj: " + getOneOrdersInfoParams.getUserObj() + " ordersID: " + getOneOrdersInfoParams.getOrdersID());
@@ -71,5 +71,16 @@ public class OrdersController {
             return Response.createError("Query fail...");
         }
         return Response.createSucc(oneOrdersInfo);
+    }
+
+    @PostMapping(value = "/confirm_receipt/update")
+    public Response confirmReceipt(@RequestBody Params.ConfirmReceiptParams confirmReceiptParams){
+        Validations.check(null == confirmReceiptParams,"The input params is null..");
+        log.info("修改订单的用户：" + confirmReceiptParams.getUserObj() + "订单号：" + confirmReceiptParams.getOrdersID());
+        Infos.ConfirmReceiptReturnParam confirmReceiptReturnParam = ordersService.confirmReceipt(confirmReceiptParams);
+        if(null == confirmReceiptReturnParam){
+            return Response.createError("Fix fail...,Please wait for a some time...");
+        }
+        return Response.createSucc(confirmReceiptReturnParam);
     }
 }

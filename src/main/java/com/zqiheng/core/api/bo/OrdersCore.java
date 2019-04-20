@@ -67,4 +67,17 @@ public interface OrdersCore extends BaseCore {
      * @date 2019/3/19 22:03:24
      */
     Infos.OrdersInfo getOneOrdersInfo(int userObj,String ordersID);
+
+    /**
+     * description:
+     * <p></p>
+     * change history:
+     * date             defect             person             comments
+     * -------------------------------------------------------------------------------------------------------------------
+     *
+     * @return
+     * @author ZQI
+     * @date 2019/4/20 19:34:27
+     */
+    boolean confirmReceipt(int userObj, String ordersID);
 }
