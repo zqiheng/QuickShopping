@@ -30,4 +30,17 @@ public interface PersonCore extends BaseCore {
       * @date 2019/2/24 14:12:26
      */
     Person privilegeCheckPerson(Person person);
+
+     /**
+      * description:
+      * <p></p>
+      * change history:
+      * date             defect             person             comments
+      * -------------------------------------------------------------------------------------------------------------------
+      * 
+      * @return 
+      * @author ZQI
+      * @date 2019/4/21 10:48:37
+     */
+    long cheakPersonLogin(String personId, String password);
 }

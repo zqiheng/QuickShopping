@@ -34,6 +34,9 @@ public class Product extends BaseEntity {
     @Column(name = "PRODUCT_ID",length = 13)
     private String productID;
 
+    /**
+     * 商品名称
+     */
     @Column(name = "PRODUCT_NAME",length = 64)
     private String productName;
 

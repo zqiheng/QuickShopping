@@ -2,7 +2,10 @@ package com.zqiheng.core.api.bo;
 
 import com.zqiheng.core.api.BaseCore;
 import com.zqiheng.dto.Infos;
+import com.zqiheng.dto.ReturnValue;
 import com.zqiheng.entity.entitydo.Shop;
+
+import java.util.List;
 
 /**
  * description:
@@ -35,4 +38,43 @@ public interface ShopCore extends BaseCore {
      * @date 2019/3/8 21:01:09
      */
     Infos.ShopInfos findTheSpecifyShopByUserPosition(String longitude, String latitude);
+
+    /**
+     * description:
+     * <p></p>
+     * change history:
+     * date             defect             person             comments
+     * -------------------------------------------------------------------------------------------------------------------
+     *
+     * @return
+     * @author ZQI
+     * @date 2019/4/21 12:59:40
+     */
+    List<Shop> getAllShopListInfo();
+
+    /**
+     * description:
+     * <p></p>
+     * change history:
+     * date             defect             person             comments
+     * -------------------------------------------------------------------------------------------------------------------
+     *
+     * @return
+     * @author ZQI
+     * @date 2019/4/21 14:11:17
+     */
+    ReturnValue addShopInfo(Shop shop);
+
+    /**
+     * description:
+     * <p></p>
+     * change history:
+     * date             defect             person             comments
+     * -------------------------------------------------------------------------------------------------------------------
+     *
+     * @return
+     * @author ZQI
+     * @date 2019/4/21 15:27:40
+     */
+    boolean deleteShopInfo(Integer id);
 }

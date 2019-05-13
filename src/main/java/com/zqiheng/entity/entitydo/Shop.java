@@ -41,6 +41,18 @@ public class Shop extends BaseEntity {
     private String shopName;
 
     /**
+     * 店铺类型
+     */
+    @Column(name = "SHOP_TYPE",length = 64)
+    private String shopType;
+
+    /**
+     * 店铺电话
+     */
+    @Column(name = "SHOP_TEL",length = 15)
+    private String shopTel;
+
+    /**
      * 省
      */
     @Column(name = "PROVINCE",length = 12)
@@ -64,28 +76,15 @@ public class Shop extends BaseEntity {
     @Column(name = "DETAIL_ADDRESS",length = 64)
     private String detailAddress;
 
-
-    /**
-     * 店铺类型
-     */
-    @Column(name = "SHOP_TYPE",length = 64)
-    private String shopType;
-
-    /**
-     * 店铺电话（座机）
-     */
-    @Column(name = "SHOP_TEL",length = 15)
-    private String shopTel;
-
     /**
      * 维度
      */
-    @Column(name = "LATITUDE",length = 16)
+    @Column(name = "LATITUDE",length = 20)
     private String latitude;
 
     /**
      * 经度
      */
-    @Column(name = "LONGITUDE",length = 16)
+    @Column(name = "LONGITUDE",length = 20)
     private String longitude;
 }

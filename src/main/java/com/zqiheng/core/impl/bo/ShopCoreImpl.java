@@ -6,12 +6,18 @@ import com.zqiheng.common.utils.StringUtils;
 import com.zqiheng.core.api.bo.ShopCore;
 import com.zqiheng.core.impl.GenericCore;
 import com.zqiheng.dto.Infos;
+import com.zqiheng.dto.ReturnValue;
 import com.zqiheng.entity.entitydo.Shop;
 import com.zqiheng.repository.ShopDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.*;
 
 /**
@@ -91,5 +97,36 @@ public class ShopCoreImpl extends GenericCore implements ShopCore {
             }
         }
         return retVal;
+    }
+
+    @Override
+    public List<Shop> getAllShopListInfo() {
+        return shopDao.findAll();
+    }
+
+    @Override
+    public ReturnValue addShopInfo(Shop shop) {
+        if (null == shop) {
+            return null;
+        }
+        // step1: check the shopID is exist.
+        Shop check = shopDao.findOne((Specification<Shop>)
+                (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("shopID"), shop.getShopID())).orElse(null);
+        if (null == check) {
+            // step2: save the shop info.
+            return ReturnValue.createSuccess("添加店铺成功！", shopDao.save(shop));
+        } else {
+            return ReturnValue.createError("店铺编号重复!", null);
+        }
+    }
+
+    @Override
+    public boolean deleteShopInfo(Integer id) {
+        Shop shop = shopDao.findById(id).orElse(null);
+        if (null != shop) {
+            shopDao.delete(shop);
+            return true;
+        }
+        return false;
     }
 }

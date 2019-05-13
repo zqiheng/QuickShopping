@@ -7,6 +7,7 @@ import com.zqiheng.entity.entitydo.UserAddress;
 import lombok.Data;
 
 import javax.persistence.Column;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -80,5 +81,17 @@ public class Infos {
     @Data
     public static class ConfirmReceiptReturnParam{
         private boolean updateFlag;
+    }
+
+    @Data
+    public static class StatisticsSaleNumber {
+        private String shopName;
+        private List<Integer> saleNumber;
+    }
+
+    @Data
+    public static class WeeklyInfo {
+        private Timestamp first;
+        private Timestamp last;
     }
 }

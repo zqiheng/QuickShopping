@@ -75,12 +75,6 @@ public class Orders extends BaseEntity {
     private Integer addressObj;
 
     /**
-     * 订单备注
-     */
-    @Column(name = "ORDERS_REMARK")
-    private String ordersRemark;
-
-    /**
      * 该订单包含的商品总数量
      */
     @Column(name = "TOTAL_NUM")
@@ -103,4 +97,10 @@ public class Orders extends BaseEntity {
      */
     @Column(name = "discount_money")
     private float discountMoney;
+
+    /**
+     * 订单备注
+     */
+    @Column(name = "ORDERS_REMARK")
+    private String ordersRemark;
 }

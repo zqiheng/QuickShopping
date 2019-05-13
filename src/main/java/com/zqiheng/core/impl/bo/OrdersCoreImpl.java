@@ -257,6 +257,59 @@ public class OrdersCoreImpl extends GenericCore implements OrdersCore {
     }
 
     @Override
+    public Infos.OrdersInfo getOneOrdersInfo(String ordersID) {
+        if(StringUtils.isEmpty(ordersID)){
+            return null;
+        }
+        Infos.OrdersInfo retVal = null;
+        Orders orders = ordersDao.findOne((Specification<Orders>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("ordersID"), ordersID)).orElse(null);
+        if(null != orders){
+            retVal = new Infos.OrdersInfo();
+            retVal.setOrdersId(orders.getOrdersID());
+            retVal.setOrdersRemark(orders.getOrdersRemark());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            retVal.setOrdersCreateTime(null == orders.getOrdersCreateTime() ? null : sdf.format(orders.getOrdersCreateTime()));
+            retVal.setOrdersCompleteTime(null == orders.getOrdersCompleteTime() ? null : sdf.format(orders.getOrdersCompleteTime()));
+            retVal.setTotalMoney(orders.getTotalMoney());
+            retVal.setOrdersType(orders.getOrdersType());
+            retVal.setPickUpOneself(orders.isPickMode());
+            retVal.setDiscount(orders.isDiscount());
+            retVal.setTotalNum(orders.getTotalNum());
+            retVal.setDiscountMoneys(orders.getDiscountMoney());
+
+            Shop shop = convertIdToObject(Shop.class, orders.getShopObj());
+            Validations.check(null == shop, "The shop info is null...");
+            retVal.setShopInfo(shop);
+            User user = convertIdToObject(User.class,orders.getUserObj());
+            Validations.check(null == shop, "The user info is null...");
+            retVal.setUserInfo(user);
+
+            if (orders.getAddressObj() != null) {
+                UserAddress userAddress = convertIdToObject(UserAddress.class, orders.getAddressObj());
+                retVal.setAddressInfo(userAddress);
+            }
+            int id = orders.getId();
+            List<Infos.OrderDetailsInfo> orderDetailsInfoList = new ArrayList<>();
+            List<OrderDetails> orderDetails = orderDetailsDao.findAll((Specification<OrderDetails>)
+                    (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("orderObj"), id));
+            if (!ArrayUtils.isEmpty(orderDetails)) {
+                orderDetails.forEach(x -> {
+                    Infos.OrderDetailsInfo info = new Infos.OrderDetailsInfo();
+                    Product product = convertIdToObject(Product.class, x.getProductObj());
+                    Validations.check(null == product,"The product info is null....");
+                    info.setBuyTime(x.getProductBuyTime());
+                    info.setProductPrice(x.getProductPrice());
+                    info.setProductNum(x.getProductNum());
+                    info.setProductInfo(product);
+                    orderDetailsInfoList.add(info);
+                });
+            }
+            retVal.setOrderDetailsInfoList(orderDetailsInfoList);
+        }
+        return retVal;
+    }
+
+    @Override
     public boolean confirmReceipt(int userObj, String ordersID) {
         User user = userDao.findOne((Specification<User>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), userObj)).orElse(null);
         Validations.check(null == user,"The user info is null..");
@@ -273,5 +326,31 @@ public class OrdersCoreImpl extends GenericCore implements OrdersCore {
         } else {
             throw new ServiceException("The Orders can't confirm receipt.");
         }
+    }
+
+    @Override
+    public List<Orders> getAllTODOOrdersInfo() {
+        return ordersDao.findAll((Specification<Orders>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("ordersType"),2));
+    }
+
+    @Override
+    public boolean confirmDelivery(String ordersID) {
+        if (StringUtils.isEmpty(ordersID)) {
+            return false;
+        }
+        Orders orders = ordersDao.findOne((Specification<Orders>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("ordersID"), ordersID)).orElse(null);
+        Validations.check(null == orders, "The orders info is null.");
+        if (orders.getOrdersType() == 2) {
+            orders.setOrdersType(3);
+            ordersDao.save(orders);
+            return true;
+        } else {
+            throw new ServiceException("The orders can't delivery.The orderType is : " + orders.getOrdersType());
+        }
+    }
+
+    @Override
+    public List<Orders> getAllOrdersListInfo() {
+        return ordersDao.findAll();
     }
 }

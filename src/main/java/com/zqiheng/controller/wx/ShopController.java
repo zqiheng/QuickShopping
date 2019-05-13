@@ -44,7 +44,7 @@ public class ShopController {
 
         // 【step1】get the specify shop infos.
         log.info("【step1】get the specify shop infos.");
-        Infos.ShopInfos specifyShopInfo = shopService.findTheSpecifyShopInfo(position);
+        Infos.ShopInfos specifyShopInfo = shopService.findTheSpecifyShopInfoForWX(position);
 
         // 【step2】return the info.
         log.info("【step2】return the info.");

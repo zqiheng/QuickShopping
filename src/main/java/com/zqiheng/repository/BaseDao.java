@@ -19,6 +19,6 @@ import org.springframework.data.repository.NoRepositoryBean;
  * @copyright 2019, FA Software (Shanghai) Co., Ltd. All Rights Reserved.
  */
 @NoRepositoryBean
-public  interface BaseDao<T extends BaseEntity> extends JpaRepository<T, String>, JpaSpecificationExecutor<T> {
+public  interface BaseDao<T extends BaseEntity> extends JpaRepository<T, Integer>, JpaSpecificationExecutor<T> {
 
 }

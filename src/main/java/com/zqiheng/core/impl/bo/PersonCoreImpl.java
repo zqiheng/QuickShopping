@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 /**
  * description:
  * <p>SopPersonImpl .<br/></p>
@@ -40,5 +45,13 @@ public class PersonCoreImpl extends GenericCore implements PersonCore {
             return personDao.findOne((Specification<Person>)
                     (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("personID"), person.getPersonID())).orElse(null);
         }
+    }
+
+    @Override
+    public long cheakPersonLogin(String personId, String password) {
+        return personDao.count((Specification<Person>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.and(
+                criteriaBuilder.equal(root.get("personID"), personId),
+                criteriaBuilder.equal(root.get("password"), password)
+        ));
     }
 }

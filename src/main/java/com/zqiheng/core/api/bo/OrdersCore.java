@@ -56,7 +56,9 @@ public interface OrdersCore extends BaseCore {
     /**
      * description:
      * <p>
-     * 根据订单ID获取订单信息
+     *      小程序端，根据用户id 和 订单ID获取指定订单信息。
+     *      如果 ordersID 为空，则返回该用户最新创建的订单
+     *      如果 ordersID 不为空，则返回该用户指定的订单。
      * </p>
      * change history:
      * date             defect             person             comments
@@ -66,7 +68,37 @@ public interface OrdersCore extends BaseCore {
      * @author ZQI
      * @date 2019/3/19 22:03:24
      */
-    Infos.OrdersInfo getOneOrdersInfo(int userObj,String ordersID);
+    Infos.OrdersInfo getOneOrdersInfo(int userObj, String ordersID);
+
+    /**
+     * description:
+     * <p>
+     *      根据指定订单的ID获取订单信息
+     * </p>
+     * change history:
+     * date             defect             person             comments
+     * -------------------------------------------------------------------------------------------------------------------
+     *
+     * @return
+     * @author ZQI
+     * @date 2019/4/25 17:49:48
+     */
+    Infos.OrdersInfo getOneOrdersInfo(String ordersID);
+
+    /**
+     * description:
+     * <p>
+     *     微信小程序端：用户确认收货，将待收货订单改为已完成订单。
+     * </p>
+     * change history:
+     * date             defect             person             comments
+     * -------------------------------------------------------------------------------------------------------------------
+     *
+     * @return
+     * @author ZQI
+     * @date 2019/4/20 19:34:27
+     */
+    boolean confirmReceipt(int userObj, String ordersID);
 
     /**
      * description:
@@ -77,7 +109,37 @@ public interface OrdersCore extends BaseCore {
      *
      * @return
      * @author ZQI
-     * @date 2019/4/20 19:34:27
+     * @date 2019/4/21 20:29:13
      */
-    boolean confirmReceipt(int userObj, String ordersID);
+    List<Orders> getAllTODOOrdersInfo();
+
+    /**
+     * description:
+     * <p>
+     *      web端：管理员确认订单派送
+     * </p>
+     * change history:
+     * date             defect             person             comments
+     * -------------------------------------------------------------------------------------------------------------------
+     *
+     * @return
+     * @author ZQI
+     * @date 2019/4/27 14:06:54
+     */
+    boolean confirmDelivery(String ordersID);
+
+    /**
+     * description:
+     * <p>
+     *     获取所有订单信息
+     * </p>
+     * change history:
+     * date             defect             person             comments
+     * -------------------------------------------------------------------------------------------------------------------
+     *
+     * @return
+     * @author ZQI
+     * @date 2019/4/27 16:51:21
+     */
+    List<Orders> getAllOrdersListInfo();
 }

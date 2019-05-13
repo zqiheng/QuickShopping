@@ -164,4 +164,25 @@ public class Params {
         private int userObj;
         private String ordersID;
     }
+
+    /**
+     * web后台商品添加商品的结构体
+     */
+    @Data
+    public class ProductInfoForAdd {
+        private Integer shopObj;
+        private Integer productCategoryObj;
+        private String productID;
+        private String productName;
+        private String productPicture;
+        private Float productProposedPrice;
+        private Float productRealPrice;
+        private String productBrand;
+        private String factoryName;
+        private String registeredAddress;
+        private String productNorm;
+        private String productPackingUnit;
+        private Integer stockQuantity;
+        private String productRemark;
+    }
 }
